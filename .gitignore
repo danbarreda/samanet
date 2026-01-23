@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# firebase options (for exposable api keys)
+/lib/firebase_options.dart
+
 # Symbolication related
 app.*.symbols
 
