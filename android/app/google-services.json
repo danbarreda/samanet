@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "277919173890",
+    "project_id": "samanet-ce5e0",
+    "storage_bucket": "samanet-ce5e0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277919173890:android:d2ec2a8c6d333d943b061b",
+        "android_client_info": {
+          "package_name": "com.example.biblioteca_unimet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdmvgeDKwSXlZCN3tzPN6NeyLshVVq1h0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
