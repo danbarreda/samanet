@@ -27,9 +27,9 @@ Solicitud de libros y flujo de aprobación.
 Control de stock en tiempo real (Disponible/No disponible).
 Feedback y calificación de usuarios.
 
+```text
 Estructura del Repositorio
 
-```text
 proyecto-final/
 ├── android/
 ├── ios/
@@ -80,6 +80,8 @@ Widget personalizado para la barra superior.
 Encapsula la lógica visual del AppBar.
 Permite reutilización en múltiples pantallas.
 Mejora la organización del código al separar UI común.
+```
+
 
 Equipo de Desarrollo:
 Ballesteros Maria 
