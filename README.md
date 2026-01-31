@@ -29,31 +29,24 @@ Feedback y calificación de usuarios.
 
 Estructura del Repositorio
 
+```text
 proyecto-final/
-│
 ├── android/
 ├── ios/
 ├── web/
 ├── linux/
 ├── macos/
 ├── windows/
-├── lib/
 ├── build/
 ├── .dart_tool/
-└── .idea/
-
-
-Carpeta general dónde se encuentra el código de flutter. (Lib)
-lib/
-│
-├── main.dart
-│
-├── pages/
-│   ├── loginpage.dart
-│   └── homepage.dart
-│
-└── widgets/
-    └── barraSuperior.dart
+├── .idea/
+└── lib/
+    ├── pages/
+    │   ├── loginpage.dart
+    │   └── homepage.dart
+    ├── widgets/
+    │   └── barraSuperior.dart
+    └── main.dart
 
 main.dart
 Punto de entrada de la aplicación Flutter.
