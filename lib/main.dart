@@ -1,8 +1,18 @@
+import 'package:biblioteca_unimet/classes/AuthWrapper.dart';
+import 'package:biblioteca_unimet/firebase_options.dart';
+import 'package:biblioteca_unimet/pages/mainpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:biblioteca_unimet/pages/homepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
   runApp(const MyApp());
 }
@@ -34,10 +44,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      initialRoute: "/",
-      routes: {
-        "/": (context) => LandingPage(),
-      },
+      home: AuthWrapper()
     );
   }
 }

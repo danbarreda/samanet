@@ -86,7 +86,7 @@ class BarraSuperiorMovilHome extends StatelessWidget implements PreferredSizeWid
           textAlign: TextAlign.center,
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.bold,
-            color: Colors.deepOrange,
+            color: Colors.grey[300],
             fontStyle: FontStyle.italic,
           ),)
     );
@@ -102,13 +102,12 @@ class BarraSuperiorDesktopHome extends StatelessWidget implements PreferredSizeW
   Widget build(BuildContext context) {
     return AppBar(
         backgroundColor: Colors.white,
-        centerTitle: true,
         title: Text(
           "SAMANET.",
           textAlign: TextAlign.left,
           style: GoogleFonts.montserrat(
             fontWeight: FontWeight.bold,
-            color: Colors.deepOrange,
+            color: Colors.blueGrey[300],
             fontStyle: FontStyle.italic,
           ),)
     );

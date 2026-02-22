@@ -120,7 +120,7 @@ class _LandingBodyDesktopState extends State<LandingBodyDesktop> {
                       Expanded(child:Container(
                         padding: EdgeInsets.all(15),
                          decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 157, 142, 242),
+                          color: Color.fromARGB(255, 164, 205, 252),
                           borderRadius: BorderRadius.circular(20)
                          ),
                         child: SizedBox(
@@ -128,7 +128,7 @@ class _LandingBodyDesktopState extends State<LandingBodyDesktop> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                            Text("Visión", style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w800, fontSize: 32),),
+                            Text("Visión", style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w800, fontSize: 32, color: Colors.white),),
                             Text(VISION1, textAlign: TextAlign.right, style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w500, fontSize: screenWidth*0.016))
                           ]                       
                           ),)
@@ -191,7 +191,6 @@ class LandingBodyMovil extends StatelessWidget {
     
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    print("$screenWidth");
     return Stack(
         children: [
           Positioned.fill(
