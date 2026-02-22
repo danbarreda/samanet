@@ -41,13 +41,6 @@ class _LoginFormState extends State<LoginForm> {
   final correoController = TextEditingController();
   final passwordController = TextEditingController();
   bool isObscureText = true;
-  ValueNotifier<String> errorMessage = ValueNotifier("");
-
-  dynamic navigate(dynamic page){
-    Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
-      builder: (BuildContext context) => page,
-    ),);
-  }
 
   void showPassword(){
     setState(() {
