@@ -1,6 +1,8 @@
 import 'dart:math';
-
+import 'package:biblioteca_unimet/pages/mainpage.dart';
 import 'package:biblioteca_unimet/pages/singUpPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import "package:google_fonts/google_fonts.dart";
 
@@ -39,6 +41,13 @@ class _LoginFormState extends State<LoginForm> {
   final correoController = TextEditingController();
   final passwordController = TextEditingController();
   bool isObscureText = true;
+  ValueNotifier<String> errorMessage = ValueNotifier("");
+
+  dynamic navigate(dynamic page){
+    Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
+      builder: (BuildContext context) => page,
+    ),);
+  }
 
   void showPassword(){
     setState(() {
@@ -46,7 +55,38 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  void login(){
+  //funcion helper porque no puedo pasarle el buildcontext desde la funcion asincrona
+  void mostrarError(String mensaje){
+    showErrorMessage(context, mensaje);
+  }
+
+  void login() async{
+    correo = correoController.text;
+    password = passwordController.text;
+    if (!correo.isEmpty){ 
+      try {
+        print("Correo: $correo.   Password: $password");
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: correo,
+          password: password
+        );
+        User? user = credential.user;
+        if (user != null){
+          //if(user.emailVerified){
+            navigate(MainPage());
+          //}
+          /*else{
+            navigate(VerifyEmailPage());
+          }*/
+        }
+      }on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        }
+      }
+    }
   }
 
   @override
@@ -72,8 +112,8 @@ class _LoginFormState extends State<LoginForm> {
               "Iniciar Sesión",
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontWeight: FontWeight.w900,
-                shadows: [Shadow(color: Colors.black, offset: Offset(0, 4.0), blurRadius: 4)],
+                fontWeight: FontWeight.w900,/*
+                shadows: [Shadow(color: Colors.black, offset: Offset(0, 4.0), blurRadius: 4)],*/
                 color: Colors.deepOrange,
               ),
             )),
@@ -163,7 +203,7 @@ class _LoginFormState extends State<LoginForm> {
               )
             ],),
             ElevatedButton(
-              onPressed: () => login(),
+              onPressed: () async => login(),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange.shade400, foregroundColor: Colors.white),
               child: Text("Acceder", style: GoogleFonts.inter(
                 fontWeight: FontWeight.w500,

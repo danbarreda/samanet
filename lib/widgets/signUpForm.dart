@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'package:biblioteca_unimet/pages/mainpage.dart';
 import 'package:biblioteca_unimet/widgets/popups.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:google_fonts/google_fonts.dart";
 
@@ -23,13 +25,20 @@ class _SignUpFormState extends State<SignUpForm> {
   final nombresApellidosController = TextEditingController();
   bool isObscureText = true;
 
+
+  dynamic navigate(dynamic page){
+    Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
+      builder: (BuildContext context) => page,
+    ),);
+  }
+
   void showPassword(){
     setState(() {
       isObscureText = !isObscureText;
     });
   }
-
-  void crearUsuario() {
+  
+  void crearUsuario() async {
     correo = correoController.text.trim();
     password = passwordController.text;
     nombresApellidos = nombresApellidosController.text;
@@ -74,8 +83,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
     String domain = parts[1].toLowerCase();
     bool validDomain =
-        domain == "correo.unimet.edu.ve" || domain == "unimet.edu.ve";
-
+      domain == "correo.unimet.edu.ve" || domain == "unimet.edu.ve";
     if (!validDomain) {
       showErrorMessage(
         context,
@@ -84,9 +92,23 @@ class _SignUpFormState extends State<SignUpForm> {
       return;
     }
 
-    //aqui abajo falta la logica con firebase y etc
-    print("Nombre y apellido: $nombresApellidos\nCorreo: $correo\nContrasena: $password\nCedula: $cedulaParsed");
-
+    //logica con firebase y redireccion a mainpage
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: correo,
+        password: password,
+      );
+      print("$credential");
+      navigate(MainPage());
+      } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
