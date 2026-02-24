@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:biblioteca_unimet/pages/mainpage.dart';
 import 'package:biblioteca_unimet/widgets/popups.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:google_fonts/google_fonts.dart";
@@ -24,7 +25,8 @@ class _SignUpFormState extends State<SignUpForm> {
   final cedulaController = TextEditingController();
   final nombresApellidosController = TextEditingController();
   bool isObscureText = true;
-
+  final db = FirebaseFirestore.instance;
+  late final usersCollection = db.collection("users");
 
   dynamic navigate(dynamic page){
     Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
@@ -99,7 +101,13 @@ class _SignUpFormState extends State<SignUpForm> {
         password: password,
       );
       print("$credential");
-      navigate(MainPage());
+      usersCollection.doc(correo).set(
+        {
+          "role": "user",
+          "cedula": cedulaStr,
+        }
+      );
+      navigate(MainPage(role: "user",));
       } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

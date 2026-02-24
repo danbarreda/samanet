@@ -1,8 +1,9 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../pages/mainpage.dart';
 import '../pages/singUpPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import "package:google_fonts/google_fonts.dart";
 
@@ -63,6 +64,7 @@ class _LoginFormState extends State<LoginForm> {
   void login() async{
     correo = correoController.text.trim();
     password = passwordController.text.trim();
+    final db = FirebaseFirestore.instance;
     
     if (correo.isNotEmpty && password.isNotEmpty){ 
       try {
@@ -76,8 +78,17 @@ class _LoginFormState extends State<LoginForm> {
           // Como estamos en una función async, Flutter pide verificar si el widget sigue en pantalla
           if (!mounted) return; 
           
-          // Usamos la función de Daniel enviando el context y la página
-          navigate(context, MainPage());
+          // ubicamos el rol del usuario y luego navegamos a la pagina correspondiente
+          final docRef = db.collection("users").doc(correo);
+          docRef.get().then(
+            (DocumentSnapshot doc) {
+              final data = doc.data() as Map<String, dynamic>;
+              String role = data["role"]!;
+              print("Rol: $role");
+              navigate(context, MainPage(role: role,));
+            },
+            onError: (e) => print("Error getting document: $e"),
+          );
         }
       } on FirebaseAuthException catch (e) {
         // Validaciones de errores usando tu función mostrarError
