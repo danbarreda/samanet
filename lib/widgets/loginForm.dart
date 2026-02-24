@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:biblioteca_unimet/pages/mainpage.dart';
-import 'package:biblioteca_unimet/pages/singUpPage.dart';
+import '../pages/mainpage.dart';
+import '../pages/singUpPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,37 +48,51 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-  //funcion helper porque no puedo pasarle el buildcontext desde la funcion asincrona
+  // funcion helper porque no puedo pasarle el buildcontext desde la funcion asincrona
   void mostrarError(String mensaje){
     showErrorMessage(context, mensaje);
   }
 
+  // Función de Daniel para navegar
+  dynamic navigate(BuildContext context, dynamic page){
+    Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
+      builder: (BuildContext context) => page,
+    ),);
+  }
+
   void login() async{
-    correo = correoController.text;
-    password = passwordController.text;
-    if (!correo.isEmpty){ 
+    correo = correoController.text.trim();
+    password = passwordController.text.trim();
+    
+    if (correo.isNotEmpty && password.isNotEmpty){ 
       try {
-        print("Correo: $correo.   Password: $password");
         final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: correo,
           password: password
         );
         User? user = credential.user;
+        
         if (user != null){
-          //if(user.emailVerified){
-            navigate(MainPage());
-          //}
-          /*else{
-            navigate(VerifyEmailPage());
-          }*/
+          // Como estamos en una función async, Flutter pide verificar si el widget sigue en pantalla
+          if (!mounted) return; 
+          
+          // Usamos la función de Daniel enviando el context y la página
+          navigate(context, MainPage());
         }
-      }on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
+      } on FirebaseAuthException catch (e) {
+        // Validaciones de errores usando tu función mostrarError
+        if (e.code == 'user-not-found' || e.code == 'invalid-email') {
+          mostrarError('No se encontró un usuario con ese correo.');
+        } else if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+          mostrarError('Contraseña o credenciales incorrectas.');
+        } else {
+          mostrarError('Error: ${e.message}');
         }
+      } catch (e) {
+        mostrarError('Ocurrió un error inesperado al iniciar sesión.');
       }
+    } else {
+      mostrarError('Por favor, llena todos los campos.');
     }
   }
 
@@ -100,17 +114,16 @@ class _LoginFormState extends State<LoginForm> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(color: Colors.deepOrange, width: 2.0)
-              ),               
+              ),              
               child: Text(
               "Iniciar Sesión",
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontWeight: FontWeight.w900,/*
-                shadows: [Shadow(color: Colors.black, offset: Offset(0, 4.0), blurRadius: 4)],*/
+                fontWeight: FontWeight.w900,
                 color: Colors.deepOrange,
               ),
             )),
-            SizedBox(             
+            SizedBox(            
               width: isDesktop ? min(screenWidth*0.5,600) : screenWidth - 100,
               child: TextField(
               controller: correoController,
@@ -135,7 +148,7 @@ class _LoginFormState extends State<LoginForm> {
                     color: Colors.blue, 
                     width: 2.0,
                 ),),
-                hintText: "Nombre de usuario",
+                hintText: "Nombre de usuario o Correo",
                 hoverColor: Colors.lightBlue.shade100,
               ),
             )
@@ -178,14 +191,12 @@ class _LoginFormState extends State<LoginForm> {
               ),
             )),
             Row(spacing: 20,mainAxisAlignment: MainAxisAlignment.center,children: [
-              Text("No tienes cuenta?", style: GoogleFonts.inter(
+              Text("¿No tienes cuenta?", style: GoogleFonts.inter(
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 ),),
               TextButton(onPressed: () => {
-                Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
-                  builder: (BuildContext context) => SignUpPage(),
-                ),)
+                navigate(context, SignUpPage()) // ¡Aquí también usé la función de Daniel!
               },
                 child: Text("Regístrate aquí", style: GoogleFonts.inter(
                   decoration: TextDecoration.underline, 

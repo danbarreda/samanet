@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:biblioteca_unimet/widgets/barraSuperior.dart';
@@ -37,13 +36,23 @@ class _MainPageBodyDesktopState extends State<MainPageBodyDesktop> {
       children: [
         Stack(
           children: [
-            Image(image: AssetImage("assets/images/biblioteca.png"), ),
-            Positioned.fill( 
+            Container(
+              height: 350, 
+              width: double.infinity,
+              child: Image.asset(
+                "assets/images/biblioteca.png", 
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned( 
+              top: 100, 
+              left: 0,
+              right: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 20,
                 children: [
-                  SizedBox(             
+                  SizedBox(            
                     width: min(screenWidth*0.5,600),
                     child: TextField(
                     controller: publicacionController,
@@ -68,7 +77,7 @@ class _MainPageBodyDesktopState extends State<MainPageBodyDesktop> {
                           color: Colors.blue, 
                           width: 2.0,
                       ),),
-                      hintText: "Buscar una publicacion",
+                      hintText: "Buscar una publicación",
                       hoverColor: Colors.lightBlue.shade100,
                     ),
                   )
@@ -86,11 +95,12 @@ class _MainPageBodyDesktopState extends State<MainPageBodyDesktop> {
             ,)
           ],
         ),
+
         Row(
           children: [
             Container(
-              color: Color.fromARGB(255, 215, 15, 15),
-              child: Text("si"),
+              padding: EdgeInsets.all(20),
+              child: Text(""),
             )
           ],
         )
@@ -130,13 +140,24 @@ class _MainPageBodyMovilState extends State<MainPageBodyMovil> {
       children: [
         Stack(
           children: [
-            Image(image: AssetImage("assets/images/biblioteca.png"), ),
-            Positioned.fill( 
+            Container(
+              height: 300, 
+              width: double.infinity,
+              child: Image.asset(
+                "assets/images/biblioteca.png", 
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            Positioned( 
+              top: 80, 
+              left: 0,
+              right: 0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 20,
                 children: [
-                  SizedBox(             
+                  SizedBox(            
                     width: screenWidth*0.65,
                     child: TextField(
                     controller: publicacionController,
@@ -161,7 +182,7 @@ class _MainPageBodyMovilState extends State<MainPageBodyMovil> {
                           color: Colors.blue, 
                           width: 2.0,
                       ),),
-                      hintText: "Buscar una publicacion",
+                      hintText: "Buscar una publicación",
                       hoverColor: Colors.lightBlue.shade100,
                     ),
                   )

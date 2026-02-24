@@ -1,5 +1,5 @@
-import 'package:biblioteca_unimet/pages/homepage.dart';
-import 'package:biblioteca_unimet/pages/singUpPage.dart';
+import '../pages/homepage.dart';
+import '../pages/singUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class BarraSuperiorDesktop extends StatelessWidget implements PreferredSizeWidget {
@@ -10,8 +10,19 @@ class BarraSuperiorDesktop extends StatelessWidget implements PreferredSizeWidge
     ),);
   }
 
-  final ButtonStyle actionButtonStyle = TextButton.styleFrom(backgroundColor:Colors.deepOrange.shade400, foregroundColor: Colors.white);
-  final TextStyle actionText = GoogleFonts.inter(fontWeight: FontWeight.w500, color: Colors.white,);
+  final ButtonStyle actionButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: Colors.deepOrange.shade400, 
+    foregroundColor: Colors.white,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  );
+  
+  final TextStyle actionText = GoogleFonts.inter(
+    fontWeight: FontWeight.w600, 
+    color: Colors.white,
+  );
 
   BarraSuperiorDesktop({super.key});
 
@@ -25,13 +36,41 @@ class BarraSuperiorDesktop extends StatelessWidget implements PreferredSizeWidge
           "SAMANET.",
           textAlign: TextAlign.left,
           style: GoogleFonts.montserrat(
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w900, 
             color: Colors.deepOrange,
             fontStyle: FontStyle.italic,
           ),)
         ),
         actions: [
-          ElevatedButton(onPressed:() => navigate(context, SignUpPage()), style: actionButtonStyle, child: Text("Registrarse", style: actionText, ),)
+          ElevatedButton(
+            onPressed: () { /* Lógica de Crear Publicación */ }, 
+            style: actionButtonStyle, 
+            child: Text("Crear Publicación", style: actionText),
+          ),
+          const SizedBox(width: 10), 
+          
+          ElevatedButton(
+            onPressed: () { /* Lógica de Solicitudes */ }, 
+            style: actionButtonStyle, 
+            child: Text("Solicitudes", style: actionText),
+          ),
+          const SizedBox(width: 10),
+          
+          ElevatedButton(
+            onPressed: () { /* Lógica de Contribuir */ }, 
+            style: actionButtonStyle, 
+            child: Text("Contribuir", style: actionText),
+          ),
+          const SizedBox(width: 10),
+          
+          ElevatedButton(
+            onPressed: () {
+              navigate(context, LandingPage());
+            }, 
+            style: actionButtonStyle, 
+            child: Text("Salir", style: actionText),
+          ),
+          const SizedBox(width: 20), 
         ],
     );
   }
@@ -39,16 +78,15 @@ class BarraSuperiorDesktop extends StatelessWidget implements PreferredSizeWidge
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight); 
 }
+
 class BarraSuperiorMovil extends StatelessWidget implements PreferredSizeWidget {
   const BarraSuperiorMovil({super.key});
 
-  
   dynamic navigate(BuildContext context, dynamic page){
     Navigator.of(context).pushReplacement(MaterialPageRoute<void>(
       builder: (BuildContext context) => page,
     ),);
   }
-
 
   @override
   Widget build(BuildContext context) {
