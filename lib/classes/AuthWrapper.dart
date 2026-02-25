@@ -1,5 +1,6 @@
 import 'package:biblioteca_unimet/pages/homepage.dart';
 import 'package:biblioteca_unimet/pages/mainpage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class AuthWrapper extends StatefulWidget {
 
 class _AuthWrapperState extends State<AuthWrapper> {
   User? user = FirebaseAuth.instance.currentUser;
+  final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,16 @@ class _AuthWrapperState extends State<AuthWrapper> {
       return VerifyEmailPage();
     }*/else{
       print("Si tiene sesion iniciada");
-      return MainPage();
+      String correo = user!.email!;
+      String role = "";
+      db.collection("users").doc(correo).get().then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          role = documentSnapshot.get("role");
+        }
+      }).catchError((error) {
+        print("Error getting document: $error");
+      });
+      return MainPage(role: role,);
     }
   }
 }
