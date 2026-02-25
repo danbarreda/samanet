@@ -206,7 +206,7 @@ class _MainPageBodyMovilState extends State<MainPageBodyMovil> {
 }
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  const MainPage({super.key, required String role});
 
   @override
   Widget build(BuildContext context) {
